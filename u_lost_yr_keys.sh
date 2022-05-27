@@ -1,0 +1,20 @@
+#! /bin/bash
+
+for sock in `ls /tmp`
+do
+  if [[ ${sock:0:3} == "ssh" ]]; then
+    dir=$sock
+  fi
+done
+
+for agent in `ls /tmp/$dir`
+do
+  export SSH_AUTH_SOCK="/tmp/$dir/$agent"
+done
+
+for proc in `ps aux | pgrep "ssh-agent"`
+do
+  final_proc=$proc
+done
+
+export SSH_AGENT_PID=$final_proc
