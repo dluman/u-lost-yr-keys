@@ -7,10 +7,6 @@ do
   fi
 done
 
-if [[ -z "$dir" ]]; then
-  exit 0  
-fi
-
 for agent in `ls /tmp/$dir`
 do
   latest_agent=$agent
