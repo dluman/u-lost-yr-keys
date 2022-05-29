@@ -7,10 +7,16 @@ do
   fi
 done
 
+if [[ -z "$dir" ]]; then
+  exit 0  
+fi
+
 for agent in `ls /tmp/$dir`
 do
-  export SSH_AUTH_SOCK="/tmp/$dir/$agent"
+  latest_agent=$agent
 done
+
+export SSH_AUTH_SOCK="/tmp/$dir/$latest_agent"
 
 for proc in `ps aux | pgrep "ssh-agent"`
 do
