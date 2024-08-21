@@ -1,6 +1,6 @@
 #! /bin/bash
 
-for sock in `ls /tmp`
+for sock in `ls -tr /tmp`
 do
   if [[ ${sock:0:3} == "ssh" ]]; then
     dir=$sock
