@@ -62,4 +62,4 @@ ssh-add -l                                 # there they are
 
 If u'd rather not lose them in the first place, give the agent a fixed address
 (`ssh-agent -a ~/.ssh/agent.sock`), or use `keychain`, or ur distro's systemd user
-`ssh-agent` service. We won't be offended. Much.
+`ssh-agent` service.
