@@ -13,8 +13,9 @@ This script goes and finds it:
 
 - **Already got a working agent?** (forwarded with `ssh -A`, ur desktop keyring, etc.)
   Then u didn't lose anything. It does nothing. Go away.
-- **Otherwise** it looks for agent sockets in `$TMPDIR` (or `/tmp`) as `ssh-*/agent.*`, and
-  in `~/.ssh/agent/` where newer OpenSSH hides them, newest first.
+- **Otherwise** it looks for agent sockets as `ssh-*/agent.*` in `/tmp` and `$TMPDIR`, in
+  `~/.ssh/agent/` where newer OpenSSH hides them, and wherever macOS's launchd keeps its
+  agent. Newest first.
 - **Only ur sockets.** Not ur coworker's. We are not that kind of script.
 - **Only live ones.** Dead sockets from agents that died in the line of duty get skipped.
 - **Found one?** `SSH_AUTH_SOCK` gets pointed at it. `SSH_AGENT_PID` gets set too if it can
@@ -24,6 +25,20 @@ This script goes and finds it:
 
 It's plain POSIX `sh`, so it works in `sh`/`dash`, `bash` and `zsh`, and it cleans up its
 own variables so ur shell doesn't fill up with junk.
+
+## Where it works
+
+| Where | What it does there |
+| --- | --- |
+| **Linux** | Everything above. |
+| **macOS** | Also checks `/tmp`, because macOS's `$TMPDIR` is some `/var/folders/...` thing. Also finds the agent launchd starts for u at login. Works in zsh, the default shell. |
+| **BSDs** | Should be the same as Linux. Not in CI, so no promises. |
+| **WSL** | It's Linux. Same as Linux. |
+| **Git Bash / MSYS2 / Cygwin** | Works. No `pgrep` there, so it reads `ps` instead. |
+| **Windows (PowerShell/cmd)** | Not our department. Windows' OpenSSH agent is a service on a named pipe, and it never got lost in the first place. |
+
+CI runs `tests/test.sh` on Linux, macOS and Windows (Git Bash) in every shell we claim to
+support. U can run it yourself too: `sh tests/test.sh bash` (or `zsh`, `dash`, ...).
 
 ## Install
 

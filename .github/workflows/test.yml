@@ -1,0 +1,27 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest,  shells: "sh dash bash zsh" }
+          - { os: macos-latest,   shells: "sh bash zsh" }
+          - { os: windows-latest, shells: "sh bash" }   # Git Bash
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - if: runner.os == 'Linux'
+        run: sudo apt-get update -q && sudo apt-get install -yq zsh dash
+      - run: |
+          rc=0
+          for s in ${{ matrix.shells }}; do sh tests/test.sh "$s" || rc=1; done
+          exit $rc
