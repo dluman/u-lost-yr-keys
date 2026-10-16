@@ -58,6 +58,8 @@ env -u SSH_AUTH_SOCK -u SSH_AGENT_PID sh   # new shell, keys "lost"
 ssh-add -l                                 # there they are
 ```
 
+If `ssh-add -l` still cannot reach an agent, there was no live socket to find.
+
 ## Or just never lose them
 
 If u'd rather not lose them in the first place, give the agent a fixed address

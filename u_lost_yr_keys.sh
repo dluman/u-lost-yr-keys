@@ -2,6 +2,7 @@
 #
 # Finds an ssh-agent u already started and points this shell at it,
 # instead of u starting approx. 1 grabillion more of them.
+# Drop it in your shell rc so each new terminal picks the agent back up.
 #
 # POSIX sh on purpose: /etc/profile.d gets sourced by /bin/sh, which is
 # often dash, which does not care for ur bashisms.
